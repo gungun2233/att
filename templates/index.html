@@ -21,7 +21,8 @@
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
             max-width: 600px;
-            position: relative; /* Make the container position relative */
+            width: 100%; /* Ensures uniform width */
+            position: relative;
         }
         h1 {
             background-color: red;
@@ -45,7 +46,9 @@
         #quote-container {
             position: relative;
             margin-top: 2rem;
-            min-height: 300px; /* Adjust as needed */
+            min-height: 300px; /* Fixed minimum height */
+            width: 100%;
+            max-width: 100%; /* Prevent overflow */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -67,9 +70,10 @@
         }
         #quote-image {
             width: 100%;
-            height: auto;
+            max-height: 300px; /* Set maximum height to prevent large images */
+            object-fit: cover; /* Ensures uniform display of images */
             border-radius: 10px;
-            display: block; /* Show image always */
+            display: block; /* Ensure image visibility */
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         }
         button {
