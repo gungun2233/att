@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motivational Quote Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffccdd; /* Light pink background */
+        }
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            position: relative; /* Make the container position relative */
+        }
+        h1 {
+            background-color: red;
+            color: yellow;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 2.5rem; /* Increased font size */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        h2 {
+            color: #4CAF50; /* Green color for subtitle */
+            font-size: 1.5rem; /* Font size for subtitle */
+            text-transform: uppercase; /* Capital letters */
+            letter-spacing: 2px; /* Space between letters */
+            margin-bottom: 1.5rem; /* Space below subtitle */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Slight shadow for depth */
+        }
+        #quote-container {
+            position: relative;
+            margin-top: 2rem;
+            min-height: 300px; /* Adjust as needed */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #quote-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            width: 80%;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 0;
+            z-index: 10;
+        }
+        #quote-image {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            display: block; /* Show image always */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+        button {
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #loading {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.2rem;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ARMY PUBLIC SCHOOL AGRA</h1>
+        <h2>MOTIVATIONAL QUOTE GENERATOR</h2> <!-- Subtitle added -->
+        <button onclick="generateQuote()">Generate Quote</button>
+        <div id="quote-container">
+            <img id="quote-image" alt="Inspirational background">
+            <p id="quote-text">Click "Generate Quote" to start</p>
+            <div id="loading">Loading...</div>
+        </div>
+    </div>
+
+    <script>
+        function generateQuote() {
+            const quoteText = document.getElementById('quote-text');
+            const quoteImage = document.getElementById('quote-image');
+            const loading = document.getElementById('loading');
+
+            // Show loading, hide current quote
+            loading.style.display = 'block';
+            quoteText.style.display = 'none';
+
+            fetch('/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Load the new image
+                quoteImage.src = data.image_url;
+
+                // Update the quote text
+                quoteText.innerText = data.quote;
+
+                // Hide loading and show the quote
+                loading.style.display = 'none';
+                quoteText.style.display = 'block';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                quoteText.innerText = "An error occurred. Please try again.";
+                quoteText.style.display = 'block';
+                loading.style.display = 'none';
+            });
+        }
+    </script>
+</body>
+</html>
