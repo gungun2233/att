@@ -1,0 +1,10 @@
+services:
+  - name: motivational-thought-generator
+    type: web
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    plan: free
+    envVars:
+      - key: PORT
+        value: 8080
